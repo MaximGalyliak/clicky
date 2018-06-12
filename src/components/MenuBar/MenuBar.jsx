@@ -11,7 +11,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 
 const Transion = props => {
-  return <Slide direction="up" {...props} />;
+  return <Slide direction="down" {...props} />;
 };
 
 class MenuBar extends Component {

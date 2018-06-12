@@ -7,7 +7,7 @@ const bkg = require("../../assets/img/bkg.jpg");
 const Banner = () => {
   return (
     <Paper style={{ background: `url(${bkg})`, padding: "2rem" }}>
-      <Typography variant="display3" align="center" color="secondary">
+      <Typography variant="display2" align="center" color="secondary">
         Clicky game
       </Typography>
       {/* <Typography variant="display2" align="center" color="secondary">

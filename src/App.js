@@ -5,19 +5,17 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import Theme from "./components/theme";
 //custom
 import Banner from "./components/Banner";
-import MenuBar from "./components/MenuBar";
+import MenuBar from "./components/MenuBar/MenuBar";
 import GameArea from "./components/GameArea";
 
 const App = () => {
   return (
-    <React.Fragment>
-      <MuiThemeProvider theme={Theme}>
-        <CssBaseline />
-        <Banner />
-        <MenuBar />
-        <GameArea />
-      </MuiThemeProvider>
-    </React.Fragment>
+    <MuiThemeProvider theme={Theme}>
+      <CssBaseline />
+      <Banner />
+      <MenuBar />
+      <GameArea />
+    </MuiThemeProvider>
   );
 };
 

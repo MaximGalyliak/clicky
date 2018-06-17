@@ -1,7 +1,13 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+
 import ClickPick from "./ClickPic";
+
+import { connect } from "react-redux";
+import { increment, increaseScore, resetScore } from "../../action-creaters";
 
 const images = [
   require("../../assets/img/one.jpg"),
@@ -19,29 +25,22 @@ class GameArea extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      current_score: 0,
-      best_score: 0,
       reset: false,
     };
   }
 
-  increaseScore = () => {
+  _resetScore = () => {
+    this.props.resetScore();
+    this.props.increment();
     this.setState({
-      current_score: this.state.current_score + 1,
-      reset: false,
+      reset: true,
     });
   };
-
-  resetScore = () => {
-    if (this.state.current_score > this.state.best_score) {
-      this.setState({
-        best_score: this.state.current_score,
-        current_score: 0,
-        reset: true,
-      });
-    } else {
-      this.setState({ current_score: 0, reset: true });
-    }
+  _increaseScore = () => {
+    this.props.increaseScore();
+    this.setState({
+      reset: false,
+    });
   };
 
   shuffleElements = () => {
@@ -67,9 +66,9 @@ class GameArea extends Component {
       >
         <Grid item md={4} xs={12}>
           <Typography variant="title">
-            Current Score : {this.state.current_score}
+            Current Score : {this.props.score}
             <br />
-            Best Score : {this.state.best_score}
+            Games Played: {this.props.count}
           </Typography>
         </Grid>
         <Grid item md={4} xs={12}>
@@ -85,8 +84,8 @@ class GameArea extends Component {
                   <ClickPick
                     img={img}
                     reset={this.state.reset}
-                    increaseScore={this.increaseScore}
-                    resetScore={this.resetScore}
+                    increaseScore={this._increaseScore}
+                    resetScore={this._resetScore}
                     shuffle={this.shuffleElements}
                   />
                 </Grid>
@@ -98,5 +97,14 @@ class GameArea extends Component {
     );
   }
 }
-
-export default GameArea;
+GameArea.propTypes = {
+  score: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired,
+  resetScore: PropTypes.func.isRequired,
+  increaseScore: PropTypes.func.isRequired,
+  incerement: PropTypes.func.isRequired,
+};
+export default connect(
+  state => ({ score: state.score, count: state.count }),
+  { resetScore, increaseScore, increment }
+)(GameArea);

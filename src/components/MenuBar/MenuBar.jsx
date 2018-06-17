@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+
 import AppBar from "@material-ui/core/AppBar";
 import ToolBar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -9,6 +11,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
+
+import { connect } from "react-redux";
 
 const Transion = props => {
   return <Slide direction="down" {...props} />;
@@ -31,17 +35,28 @@ class MenuBar extends Component {
   };
 
   render() {
+    const { score, count } = this.props;
     return (
       <React.Fragment>
         <AppBar position="sticky" color="default">
           <ToolBar>
             <Grid container>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <Typography variant="title" color="primary" align="left">
                   Clicky Game
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
+                <Typography variant="title" color="primary" align="center">
+                  {score === 0 &&
+                    count === 0 &&
+                    "Click on any image to start the game"}
+                  {score === 0 && count >= 1 && "You lost!"}
+                  {score >= 1 && score < 9 && "Game Started."}
+                  {score === 9 && "You won!"}
+                </Typography>
+              </Grid>
+              <Grid item xs={4}>
                 <Typography variant="title" color="primary" align="right">
                   <Button color="primary" onClick={this.handleClickOpen}>
                     Rules
@@ -75,5 +90,15 @@ class MenuBar extends Component {
     );
   }
 }
+MenuBar.propTypes = {
+  score: PropTypes.number.isRequired,
+  count: PropTypes.number.isRequired,
+};
 
-export default MenuBar;
+export default connect(
+  state => ({
+    score: state.score,
+    count: state.count,
+  }),
+  null
+)(MenuBar);
